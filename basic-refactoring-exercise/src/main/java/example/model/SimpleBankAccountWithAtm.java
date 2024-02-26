@@ -1,31 +1,31 @@
 package example.model;
 
-public class SimpleBankAccountWithAtm extends SimpleBankAccount {
+public class SimpleBankAccountWithAtm implements BankAccount {
     private static final int FEE = 1;
     
     private double balance;
+    private final AccountHolder holder;
 
     public SimpleBankAccountWithAtm(AccountHolder holder, double balance) {
-        super(holder, balance);
+        this.holder = holder;
         this.balance = balance;
     }
 
     @Override
     public void deposit(int userID, double amount) {
-        if(this.isDepositAllowed(amount)){
-            super.deposit(userID, amount);
-            this.balance -= FEE;
+        if(this.checkUser(userID) && this.isDepositAllowed(amount)){
+            this.balance += (amount - FEE);
         }
     }
 
     @Override
     public double getBalance() {
-        return super.getBalance();
+        return this.balance;
     }
 
     @Override
     public AccountHolder getHolder() {
-        return super.getHolder();
+        return this.holder;
     }
 
     @Override
